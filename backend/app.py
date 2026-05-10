@@ -1,5 +1,5 @@
 """
-StockSense NSE Watchlist Analyzer - Flask Backend
+StockSense  NSE Watchlist Analyzer - Flask Backend
 Run: pip install flask flask-cors requests yfinance niftystocks pandas
 Then: python app.py
 """
