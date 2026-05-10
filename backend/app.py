@@ -32,7 +32,9 @@ CORS(app, resources={
 })
 """
 
-WATCHLIST_FILE = "watchlist.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+WATCHLIST_FILE = os.path.join(BASE_DIR, "watchlist.json")
+
 DEFAULT_WATCHLIST = [
     "IRCTC","INOXWIND","HDFCBANK","ONGC","TMPV","TMCV",
     "PIIND","BEL","RELIANCE","INDUSINDBK","SBIN"
@@ -514,8 +516,10 @@ def update_watchlist():
     save_watchlist(s)
     return jsonify({"status":"ok","symbols":s})
 
-@app.route("/api/analyze",methods=["GET"])
+@app.route("/api/analyze", methods=["GET", "OPTIONS"])
 def analyze():
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
     wl = load_watchlist()
     workers = min(len(wl), 5)
     sessions = [create_session() for _ in range(workers)]
@@ -869,6 +873,14 @@ def serve_frontend():
         if os.path.exists(os.path.join(folder, name)):
             return send_from_directory(folder, name)
     return "Frontend HTML not found in same folder as app.py", 404
+
+@app.after_request
+def add_cors_headers(response):
+    # This forces the header even if other configurations fail
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
