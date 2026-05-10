@@ -1,1 +1,7 @@
-flask flask-cors requests yfinance niftystocks pandas gunicorn
+flask 
+flask-cors 
+requests 
+yfinance 
+niftystocks 
+pandas 
+gunicorn
