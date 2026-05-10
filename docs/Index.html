@@ -3724,7 +3724,7 @@ function exportPortfolioCSV() {
   const blob = new Blob([csv], {type:'text/csv'});
   const a    = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = 'portfolio.csv'; a.click();
-  showToast('Portfolio exported');
+  showToast('Portfolio exported.');
 }
 
 // ── Start ─────────────────────────────────────────────────
