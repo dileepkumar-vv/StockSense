@@ -13,12 +13,23 @@ app = Flask(__name__)
 
 # Allow GitHub Pages frontend (and localhost for dev)
 # Replace YOUR_GITHUB_USERNAME with your actual GitHub username
+"""
 CORS(app, origins=[
     "https://dileepkumar-vv.github.io/StockSense",
     "http://localhost:5000",
     "http://127.0.0.1:5000",
     "null",  # local file:// access during dev
 ])
+"""
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "https://github.io",
+            "http://localhost:5000",
+            "http://127.0.0.1:5000"
+        ]
+    }
+})
 
 WATCHLIST_FILE = "watchlist.json"
 DEFAULT_WATCHLIST = [
